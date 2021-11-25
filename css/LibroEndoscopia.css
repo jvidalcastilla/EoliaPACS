@@ -1,0 +1,68 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06/01/2021, 09:31:31
+    Author     : jvidal
+*/
+
+  .boton{
+        
+        height: 20px;
+        width: 35px;
+        margin: 0px;
+        padding: 0px;
+        padding-top: 2px;
+    }
+    #tLibro {
+          font-size: small;
+       
+    }
+    #fecha{
+        width: 150px;
+    }
+  
+     th{
+        font-size: small;
+        padding: 1px;
+        border-spacing: 1px;
+    }
+  
+    td{
+        border-spacing: 1px;
+        font-size:small ;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+     
+    .btn_ancho {
+        width: 160px !important;
+    }
+    .bs-example{
+    	margin: 20px;
+    }
+    
+    codigo_int {
+     background-color: lightgrey;
+     color: blue;     
+    }
+    codigo_cirugia {
+     font-weight: bold;
+     color: blue;     
+    }
+     error_bono {
+         background-color: #ff9999;
+         font-weight: bold;
+    }
+    
+    
+    std{
+        padding: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-color: #10707f;
+        font-size: x-small;
+    }

@@ -1,0 +1,170 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07/10/2021, 16:27:16
+    Author     : jvidal
+*/
+
+#afiliado {
+    width: 120px!important;
+}
+#obraSocial{
+        width: 450px!important;
+}
+     p {margin: 0px;
+            }
+            tipo_pac{
+                font-size: larger;
+            }
+            #btn_porApellido{
+                width: 140px;
+                margin-top: 2px;
+            }
+            #grabar{
+                float: right;
+                width: 140px;
+                margin-top: 2px;
+            }
+            #ingresoDniPac{
+                width: 140px;
+                margin-top: 2px;
+            }
+            #dniPaciente{
+                margin-top: 2px;
+                height: 30px;
+                width: 170px;
+            }
+            .padtit{
+                padding-left: 55px;
+            }
+
+            #btn_imprimir{
+                float: right;
+                width: 140px;
+            }
+            #btn_limpiar{
+                float: right;
+                width: 140px;
+            }
+            #profesional_opt{
+                height: 30px;
+            }
+            #codigo{
+                padding-left: 1px;
+                margin-left: 15px;
+                width: 170px;
+            }
+            #fecha_estudio{
+                padding-left: 1px;
+                margin-left: 15px;
+                margin-top: 2px;
+
+            }
+            titulo {
+                font-family: "Times New Roman", Times, serif;
+                font-size: xx-large;
+                font-weight: bold;
+                margin: 15px;        
+            }
+            margen {
+                margin: 15px;        
+            }
+            .card {
+                border: 1px solid grey;
+            }
+
+            @media print {
+               p {margin: -5px;
+            }
+                
+                @page { margin: 2cm }
+
+                body {
+                    font: 14pt Georgia, "Times New Roman", Times, serif;
+                    line-height: 1.3;
+                    background: #fff !important;
+                    color: #000;
+                }
+                a {
+                    page-break-inside:auto;
+                } 
+
+                format_texto{
+                    font-size:large;
+
+                }
+
+
+                #fecha_print {
+                    margin-top: 0px;      
+                    padding-bottom:0px;
+                    padding-top: 0px;
+                }
+
+                titulo {
+                    margin-left: 32px;        
+                    padding-left: 32px;
+                }
+
+                margen {
+                    margin-left: 32px;        
+                    padding-left: 32px;
+                    font-size: large;
+                }
+
+
+                titulo-xs {
+                    margin-left: 32px;        
+                    padding-left: 32px;
+                    font-size: medium;
+                }
+
+
+
+                button {
+                    display: none !important;
+                    margin-left: 20px;        
+                }
+                label {
+                    margin-top: none;
+                    padding-top: none;
+                }
+                .card-text {
+                    margin-top: none;
+                    padding-top: none;
+                }
+
+                
+                input,
+                textarea {
+                    border: none !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                    margin-left : 40px;        
+                    margin-top: none;
+                    padding-top: none;
+                    overflow: auto;
+                    resize: none;
+
+                }
+                
+             
+                #inf_imprimir{
+                    margin-left : 40px;  
+                    font: 18pt Georgia, "Times New Roman", Times, serif;
+                    width: 900px;
+
+                }
+                #print_helper{
+                    display: block;
+                    overflow: visible;
+                    margin-left : 40px;  
+                    font: 15pt Georgia, "Times New Roman", Times, serif;
+                    white-space: pre;
+                    white-space: pre-wrap;
+                }
+
+            }
