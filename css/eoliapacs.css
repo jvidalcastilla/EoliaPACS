@@ -1,0 +1,169 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17/07/2020, 12:20:35
+    Author     : jvidal
+*/
+
+
+.fondo_panel{
+    background-color: #495057!important;
+}
+
+.control_entrada{
+    background-color: #818182!important;
+}
+
+.boton_grilla{
+    height: 20px!important;
+    border-color: transparent!important;
+    margin-top: 0px!important;
+    margin-bottom: 0px!important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+      
+}
+
+
+body {
+  background-color: #495057!important;
+  /*background-image: url("../images/fondoLogin.jpg");
+  display: block;*/
+  margin:auto;
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+firma {
+    text-height: 12px;
+    color: #ffffff;
+}
+
+texto_ppal_header {
+    color: #ffffff;
+    font-size: large;
+    background-color: transparent;
+    font-weight: bolder;
+}
+
+.navbar {
+  height: 50px;
+}
+
+.boton_tabla{
+    height: 8px!important;
+}
+
+form_filtro{
+    width: 100%;
+}
+
+
+.navbar-text {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.color_fondo_menu{
+    background-color: #055cbd;
+}
+
+
+a {
+  color: white;
+  
+}
+a:hover {
+  color: white;
+  background: dimgray;
+  font-weight: bolder;
+  
+  
+}
+
+@media (max-width: 575px) {
+  .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item {
+    color: #ecf0f1;
+  }
+  .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+  .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+    color: #ffffff;
+  }
+  .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item.active {
+    color: #ffffff;
+    background-color: #3c8ce7;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item {
+    color: #ecf0f1;
+  }
+  .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+  .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+    color: #ffffff;
+  }
+  .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item.active {
+    color: #ffffff;
+    background-color: #3c8ce7;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item {
+    color: #ecf0f1;
+  }
+  .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+  .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+    color: #ffffff;
+  }
+  .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item.active {
+    color: #ffffff;
+    background-color: #3c8ce7;
+  }
+}
+
+@media (max-width: 1199px) {
+  .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item {
+    color: #ecf0f1;
+  }
+  .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+  .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+    color: #ffffff;
+  }
+  .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item.active {
+    color: #ffffff;
+    background-color: #3c8ce7;
+  }
+}
+
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item {
+  color: #ecf0f1;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:focus {
+  color: #ffffff;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active {
+  color: #ffffff;
+  background-color: #3c8ce7;
+}
+
+titulo_portal {
+            font-size: xx-large;
+            font-weight: bolder;
+            color:#42A5F5 ;
+        }
+
+
+
+#tabla_normal{
+    color:#000000 ;
+    
+}
+#tabla_normal.link{
+    color:#000000 ;
+}
