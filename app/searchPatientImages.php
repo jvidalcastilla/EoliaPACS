@@ -26,7 +26,7 @@ function SearchStudies($periodo,$id_pac,$nom_pac, $modalities, $rangoDesde, $ran
 {
     $unInforme=new CInforme();
     
-    $service_url = getPACSServerURL() . '/pacs/tools/find';
+    $service_url = getPACSServerURL() . '/tools/find';
     $curlStudies = curl_init($service_url);
     curl_setopt($curlStudies, CURLOPT_USERPWD, getPACSUserPassword());
     curl_setopt($curlStudies, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -94,6 +94,8 @@ function SearchStudies($periodo,$id_pac,$nom_pac, $modalities, $rangoDesde, $ran
     curl_setopt($curlStudies, CURLOPT_POSTFIELDS, $query);
     
     $curlQuery_response = curl_exec($curlStudies);
+    
+    
     if ($curlQuery_response === false) {
         $info = curl_getinfo($curlStudies);
         curl_close($curlStudies);
@@ -101,7 +103,7 @@ function SearchStudies($periodo,$id_pac,$nom_pac, $modalities, $rangoDesde, $ran
     }
     curl_close($curlStudies);
     $decodedQuery = json_decode($curlQuery_response);
-   //  echo $decodedQuery;
+   
     if (isset($decodedQuery->response->status) && $decodedQuery->response->status == 'ERROR') {
         die('error occured: ' . $decodedQuery->response->errormessage);
     }
@@ -170,7 +172,7 @@ function translateModality($modType){
 function getStudyDetails($aStudy,$modalities, $unInforme){
     //   echo "Getting study details for:".$aStudy."</br>";
     
-    $service_url = getPACSServerURL() . '/pacs/studies/'.$aStudy;
+    $service_url = getPACSServerURL() . '/studies/'.$aStudy;
     $curlStudyDetail = curl_init($service_url);
     curl_setopt($curlStudyDetail, CURLOPT_USERPWD, getPACSUserPassword());
     curl_setopt($curlStudyDetail, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -183,6 +185,7 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
         die('error occured during curl exec. Additional info: ' . var_export($info));
     }
     curl_close($curlStudyDetail);
+   
     $decodedQuery = json_decode($curlQuery_response);
     
     if (isset($decodedQuery->response->status) && $decodedQuery->response->status == 'ERROR') {
@@ -194,15 +197,15 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     $patientName=str_replace("^", " ", $patientName);
     $encodedPatientName=urlencode($patientName);
     $patientId=$decodedQuery->PatientMainDicomTags->PatientID;
-    $patientName="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/pacs/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank' id='pac_".$patientName."'>".$patientName."</a>";
+    $patientName="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank' id='pac_".$patientName."'>".$patientName."</a>";
     $referringPhysicianName=$decodedQuery->MainDicomTags->ReferringPhysicianName;
     $formatedDate = DateTime::createFromFormat('Ymd', $studyDate)->format('d/m/Y');
     
-    $studyLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/pacs/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'>".$formatedDate."</a>";
-    $btnVisualizar="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/pacs/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'><button class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-eye' aria-hidden='true'></i></button></a>";
+    $studyLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'>".$formatedDate."</a>";
+    $btnVisualizar="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'><button class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-eye' aria-hidden='true'></i></button></a>";
             
             
-    $downloadLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/pacs/studies/".$decodedQuery->ID."/media' download='paciente' class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-download' aria-hidden='true'></i> </a>";
+    $downloadLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/studies/".$decodedQuery->ID."/media' download='paciente' class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-download' aria-hidden='true'></i> </a>";
     
     $downloadLink=$downloadLink."<A HREF='./Pacs/openQR.php?id=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank'  class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-copy' aria-hidden='true'></i> </A>";
     
@@ -248,7 +251,7 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     
     foreach ($decodedQuery->Series as &$serie) {
         
-        $service_url = getPACSServerURL().'/pacs/series/' . $serie;
+        $service_url = getPACSServerURL().'/series/' . $serie;
         $seriecurl = curl_init($service_url);
         curl_setopt($seriecurl, CURLOPT_USERPWD,getPACSUserPassword());
         curl_setopt($seriecurl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -261,7 +264,11 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
         }
         
         $detalleSerie = json_decode($seriecurl_response);
-        $tipoModality=translateModality($detalleSerie->MainDicomTags->Modality);
+        // Evitar tipo "Others"
+        if ($detalleSerie->MainDicomTags->Modality!=="OT"){
+            $tipoModality=translateModality($detalleSerie->MainDicomTags->Modality);
+        }
+        
         $detalleEstudio=" ";
         
         if (property_exists($detalleSerie->MainDicomTags,"BodyPartExamined")) {
@@ -302,7 +309,7 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
 
 function showPatientImages($dni){
     
-    $service_url = getPACSServerURL() . '/pacs/tools/find';
+    $service_url = getPACSServerURL() . '/tools/find';
     $curl = curl_init($service_url);
     curl_setopt($curl, CURLOPT_USERPWD, getPACSUserPassword());
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -331,7 +338,7 @@ function showPatientImages($dni){
     
     foreach ($decoded as &$valor) {
         
-        $service_url = getPACSServerURL().'/pacs/patients/' . $valor;
+        $service_url = getPACSServerURL().'/patients/' . $valor;
         $paccurl = curl_init($service_url);
         curl_setopt($paccurl, CURLOPT_USERPWD,getPACSUserPassword());
         curl_setopt($paccurl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);

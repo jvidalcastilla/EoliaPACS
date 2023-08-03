@@ -30,7 +30,7 @@ $studyInstance=urldecode($params->uid);
 $dniPaciente = urldecode($params->patientId);
 $solicitante= urldecode($params->referringPhysicianName);
 $solicitante= str_replace("^"," ", $solicitante);
-$hayInforme= urldecode($params->informe);
+
 
 $direccionPaciente = "";
 $diagnosticos = "";
@@ -39,16 +39,14 @@ $ultimaAccion = "";
 $edadPaciente = "";
 $limpiar = false;
 $accessionNumber = "";
-
+$pacObraSocial="";
+$afiliado="";
 
 $usuario = $_SESSION['user_id'];
 $fecha_estudio = $params->fecha;
 
 
 $estudio= "";
-if (isset($_GET['estudio'])) {
-    $estudio = $_GET['estudio'];
-}
 
 
 $codigoProf = "";
@@ -82,18 +80,21 @@ if (isset($_POST['editor1'])) {
 } 
 
 //Si no hay datos en el campo de informe lo tomo de la base de datos si es que existe
-if ($informe==""){
-    if ($hayInforme){
+
     $unInforme=new CInforme();
     $unInforme->getInformeByStudy($studyInstance);
     $informe=$unInforme->getInforme();
     $afiliado=$unInforme->getPac_afiliado();
     $pacObraSocial=$unInforme->getPac_os();
-    $nom_paciente=$unInforme->getPac_nombre();
-    $solicitante=$unInforme->getSolicitante_nom();
-    
+    if ($unInforme->getPac_nombre()!=""){
+        $nom_paciente=$unInforme->getPac_nombre();
     }
-}
+    if ($unInforme->getSolicitante_nom()!=""){
+        $solicitante=$unInforme->getSolicitante_nom();
+    }
+    
+    
+    
 
 
 $accessionNumber = "";
@@ -372,6 +373,8 @@ if (isset($_POST['accessionNumber'])) {
 <div class="container">
     
     <button type="button" class="btn btn-success" onclick="grabarInforme();"><i class="fa fa-floppy-o"  aria-hidden="true"></i> Grabar </button>
+    
+    <button type="button" class="btn btn-success" onclick="grabarInforme();window.open('./ImprimirInforme.php?studyinstance=<?php echo $studyInstance;?>&dniPaciente=<?php echo $dniPaciente;?>')"><i class="fa fa-print"  aria-hidden="true"></i> Imprimir </button>
     
 </div>
         

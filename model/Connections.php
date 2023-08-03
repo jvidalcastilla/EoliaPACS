@@ -14,7 +14,9 @@ function obtenerDireccionIP()
     else
       $ip=$_SERVER ['REMOTE_ADDR'];
 
-    return $ip;
+    
+    return "127.0.0.1";
+    //return $ip;
 }
 
 
@@ -54,7 +56,8 @@ function getCharsetEncoding()
 function getMedicalConn()
 {
     
-$dbconn = pg_connect("host=192.168.0.190 port=5432 dbname=pacseolia user=pacseolia password=PACSEolia");
+//$dbconn = pg_connect("host=192.168.0.190 port=5432 dbname=pacseolia user=pacseolia password=PACSEolia");
+$dbconn = pg_connect("host=127.0.0.1 port=5432 dbname=pacseolia user=pacseolia password=pacseolia");
 pg_set_client_encoding($dbconn, "UTF-8");
 return $dbconn;
     
@@ -95,31 +98,36 @@ function getPACSServerURL()
     $ipCliente = obtenerDireccionIP();
     if((substr($ipCliente, 0, 8 ) == "192.168.") OR ($ipCliente=="::1"))
     {
-       return "http://192.168.0.190";
+    //   return "http://127.0.0.1";
     }else{
        //return "http://181.118.115.80:8042";
-        return "http://181.118.115.80:".getPACSServerPort();
+       // return "http://181.118.115.80:".getPACSServerPort();
    }
+   
+   
+   return "127.0.0.1:8042";
    }
       
 
 
 function getPACSUserPassword()
 {
-    return "tomografia:medisur2019";
+    //return "tomografia:medisur2019";
+    return "";
 }
 
 function getPACSServerIP()
 {
     $ipCliente = obtenerDireccionIP();
-    if((substr($ipCliente, 0, 8 ) == "192.168.") OR ($ipCliente=="::1"))
+ /*   if((substr($ipCliente, 0, 8 ) == "192.168.") OR ($ipCliente=="::1"))
     {   	
     	return "192.168.0.190";
      }
    else{ 
     	return "181.118.115.80";
     }
-
+*/
+    return "127.0.0.1";
 }
 
 function getPACSExternalPort(){
@@ -129,6 +137,7 @@ function getPACSExternalPort(){
 
 function getPACSServerPort()
 {
+    return 8042;
     $ipCliente = obtenerDireccionIP();
     if((substr($ipCliente, 0, 8 ) == "192.168.") OR ($ipCliente=="::1"))
     {

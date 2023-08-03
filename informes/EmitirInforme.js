@@ -41,7 +41,7 @@ function grabarInforme(){
     
 //    alert (dniPaciente);
     $link="./wsSaveInforme.php?informe="+informe+"&dni="+dniPaciente+"&solicitante="+solicitante+"&paciente="+nom_paciente+"&afiliado="+afiliado+"&obraSocial="+obraSocial+"&usuario="+usuario+"&fecha="+fecha+"&firmante="+firmante+"&studyInstance="+studyInstance;
-    getRequest($link, informeGrabado, informeError)
+    getRequest($link, informeGrabado, informeError);
     
 }
 
