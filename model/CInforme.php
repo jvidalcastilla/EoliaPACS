@@ -22,6 +22,7 @@ include_once '../model/Connections.php';
     var $pac_os ;
     
     var $stmtExists=null;
+    var $stmtEstado=null;
     var $stmtGetInforme=null;
     
     
@@ -168,6 +169,26 @@ include_once '../model/Connections.php';
         return ($rows>0);
     }
 
+    function getEstadoInforme($aStudy){
+         
+        if ($this->stmtEstado==null){
+            $conn= getMedicalConn();
+            $sql="select estado from public.informes where studyinstanceid=$1";
+            $this->stmtEstado= pg_prepare($conn,"estadoInforme",$sql);
+        }
+        $params=array($aStudy);
+        $rs= pg_execute("estadoInforme",$params);
+        $aRow= pg_fetch_assoc($rs);
+        $estado="PND";
+        if ($aRow!=null){
+            $estado=$aRow['estado'];
+        }
+        
+        return $estado;
+    }
+    
+    
+    
     function loadRs($row){
         $this->fecha_creacion=$row['fecha_creacion'];
         $this->fecha_finalizado=$row['fecha_finalizado'];

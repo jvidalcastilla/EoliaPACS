@@ -17,6 +17,10 @@ and open the template in the editor.
     background-color: #818182!important;
 }
 
+.control-fecha {
+    max-width: 150px!important;
+        
+}
 .boton_grilla{
     height: 20px!important;
     border-color: transparent!important;
@@ -166,4 +170,8 @@ titulo_portal {
 }
 #tabla_normal.link{
     color:#000000 ;
+}
+
+.adelante {
+    z-index: 0;
 }

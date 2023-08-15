@@ -1,0 +1,13 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 6 ago. 2023, 12:44:44
+    Author     : Jorge Vidal <jorge.vidal at hospitalitaliano.org.ar>
+*/
+
+.alto {
+    height: calc(100vh - 200px)!important; /* Ajusta el valor según sea necesario */
+}

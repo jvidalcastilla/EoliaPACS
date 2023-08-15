@@ -250,9 +250,10 @@ function sortTable(n) {
             }
       
       function enviarEmail(){
-           
-        var container = document.getElementById('recipient-name');
-        container.innerHTML="<email_dest>ENVIANDO CORREO</email_dest>";
+          
+         // alert("hola");
+        var container = document.getElementById('email-estado');
+        container.innerHTML='<email_dest class="col-form-label">ENVIANDO CORREO <i class="fa fa-refresh fa-spin fa-fw"></i><span class="sr-only">Loading...</span></email_dest>';
         
         var emailContainer = document.getElementById('recipient-address');
         var mailto= emailContainer.value;
@@ -270,8 +271,31 @@ function sortTable(n) {
            
       }
       
+      
     function mailOK(response){
          $('#sendEmailPopup').modal('hide');  
 //         alert ("Correo enviado con exito.");
+        var container = document.getElementById('email-estado');
+        container.innerHTML='';
+       
       }
     
+    function dismissEmail(response){
+         $('#sendEmailPopup').modal('hide');  
+//         alert ("Correo enviado con exito.");
+        var container = document.getElementById('email-estado');
+        container.innerHTML='';
+       
+      }
+    
+    function setMailTo(paciente, study){
+    let vPacDestino=document.getElementById("pacDestinoMail");
+    vPacDestino.innerText="Enviar estudios de " + decodeURI(paciente);
+    
+    let vIdEstudio=document.getElementById("idEstudioMail");
+    vIdEstudio.innerText=study;
+    
+    let btnEnviaMail=document.getElementById("btnConfirmaMail");
+
+    
+}

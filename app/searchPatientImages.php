@@ -1,4 +1,39 @@
 
+<div class="modal fade" id="sendMailModal" tabindex="-1" role="dialog" aria-labelledby="sendMailModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pacDestinoMail">Enviar por email</h5>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">E-Mail destino:</label>
+            <input type="text" class="form-control" id="email-destinatario">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Mensaje:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+            <div id="idEstudioMail"></div>
+            <div id="email-estado"></div>
+        </form>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" onclick="dismissEmail();"  data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-sm btn-primary" onclick="enviarEmail();" id="btnConfirmaMail">Enviar E-Mail</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <table class="table PACSTable table-responsive table-hover table-bordered table-striped table-sm w-100 p-0 table-dark" id="estudios">
   <thead class="thead-dark"> <!-- add class="thead-light" for a light header -->
     <tr>
@@ -195,6 +230,7 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     $studyDate=$decodedQuery->MainDicomTags->StudyDate;
     $patientName=$decodedQuery->PatientMainDicomTags->PatientName;
     $patientName=str_replace("^", " ", $patientName);
+    $patientNameEspacios=str_replace("^", " ", $patientName);
     $encodedPatientName=urlencode($patientName);
     $patientId=$decodedQuery->PatientMainDicomTags->PatientID;
     $patientName="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank' id='pac_".$patientName."'>".$patientName."</a>";
@@ -202,33 +238,53 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     $formatedDate = DateTime::createFromFormat('Ymd', $studyDate)->format('d/m/Y');
     
     $studyLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'>".$formatedDate."</a>";
+    
+      
+    
+    //$studyLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/ohif/viewer?url=../studies/".$decodedQuery->ID."/ohif-dicom-json'  target='_blank'>".$formatedDate."</a>";
+    
     $btnVisualizar="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/osimis-viewer/app/index.html?study=".$decodedQuery->ID."'  target='_blank'><button class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-eye' aria-hidden='true'></i></button></a>";
             
             
     $downloadLink="<A HREF='http://".getPACSServerIP().":".getPACSServerPort()."/studies/".$decodedQuery->ID."/media' download='paciente' class='btn btn-outline-secondary btn-sm boton_grilla'> <i class='fa fa-download' aria-hidden='true'></i> </a>";
     
-    $downloadLink=$downloadLink."<A HREF='./Pacs/openQR.php?id=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank'  class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-copy' aria-hidden='true'></i> </A>";
+   // $downloadLink=$downloadLink."<A HREF='./Pacs/openQR.php?id=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank'  class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-copy' aria-hidden='true'></i> </A>";
     
-    $qrLink="<A HREF='./Pacs/GenerarQR.php?Study=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank' class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-qrcode' aria-hidden='true'></i></A>";
+    $qrLink="<A HREF='./GenerarQR.php?Study=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank' class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-qrcode' aria-hidden='true'></i></A>";
     //$emailLink="<A HREF='./Pacs/SendEmail.php?Study=".$aStudy."&nom_pac=".($encodedPatientName)."' target='_blank'><img src='./images/qr.png' alt='QR' height='16' width='16'> Email</A>";
     //class="btn_mail" <svg width="0.9em" height="0.9em" viewBox="0 0 16 16" class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   //<path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
 //</svg>'
+    
+    $verPdfLink="<A HREF='../docs/".$aStudy.".pdf' target='_blank' class='btn btn-outline-secondary btn-sm boton_grilla'><i class='fa fa-file-pdf-o text-success' aria-hidden='true'></i></A>";
+    
     $emailLink='<button type="button" class="btn btn-outline-secondary btn-sm boton_grilla" id="'.$patientId.'", data-toggle="" data-target="#sendEmailPopup" onClick="sendEmail(this.value, this.id)" value="'.$aStudy.'">'
             . '<i class="fa fa-envelope"></i>'
             . '</button>';
     
     
-    $informeBtn='<button type="button" class="btn btn-outline-secondary btn-sm boton_grilla" id="'.$patientId.'" onClick="emitirInforme(this.value, this.id)" value="'.$aStudy.'">'
-            . '<i class="fa fa-pencil-square-o"></i>'
-            . '</button>';
+    $emailLink='<button type="button" onClick="setMailTo('."'".$patientNameEspacios."','".$aStudy."')".'" class="btn btn-outline-secondary btn-sm boton_grilla" data-toggle="modal" data-target="#sendMailModal" data-id="'.$patientId.'"><i class="fa fa-envelope"></i></button>';
     
+   
     
     $existeInforme=$unInforme->existsInforme($aStudy);
     $colorBoton="btn-outline-secondary";
     if ($existeInforme){
-        $colorBoton="btn-outline-success";
+        $colorBoton="btn-outline-primary";
     }
+    $estadoInforme="Pendiente";
+    if ($unInforme!=null){
+        $estadoI=$unInforme->getEstadoInforme($aStudy);
+        if ($estadoI=='FIN'){
+            $estadoInforme="Finalizado";
+             $colorBoton="btn-outline-success";
+        }
+    }
+    
+    $informeBtn='<button type="button" class="btn btn-outline-secondary btn-sm boton_grilla" id="'.$patientId.'" onClick="emitirInforme(this.value, this.id)" value="'.$aStudy.'">'
+            . '<i class="fa fa-pencil-square-o"></i>'
+            . '</button>';
+    
         
     
     $data=array();
@@ -292,14 +348,18 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     echo '<td>'.$studyLink.'</td>';
     echo '<td>'.$tipoModality.'</td>';
     echo '<td>'.$detalleAnt.'</td>';
-    echo '<td>Pendiente</td>';
-    echo '<td class="form-row p-0 m-0">'.$informeBtn.$btnVisualizar;
-    echo $downloadLink;
+    echo '<td>'.$estadoInforme.'</td>';
+    echo '<td class="form-inline border-0">';
+    if ($estadoInforme!="Finalizado"){
+        echo $informeBtn;
+    };
+    if ($estadoInforme=="Finalizado"){
+        echo $verPdfLink;
+    };
     echo $qrLink;     
-    
-    if ($tipoModality<>'CT'){
-        echo $emailLink;     
-    } 
+    echo $emailLink;     
+    echo $downloadLink;    
+ 
     echo '</td>';     
         
     echo '</tr>';
@@ -361,5 +421,7 @@ SearchStudies($periodo,$id_pac,$nom_pac,$modalities, $rango_desde,$rango_hasta);
 ?>
 
    
-</tbody></table>     
+</tbody
+
+</table>     
   

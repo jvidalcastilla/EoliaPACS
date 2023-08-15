@@ -15,6 +15,7 @@ include_once '../model/Connections.php';
     var $localidad;
     var $logo_informes;
     var $logo_login;
+    var $url_qr;
     
     var $stmtExists=null;
     var $stmtGetInforme=null;
@@ -41,6 +42,7 @@ include_once '../model/Connections.php';
             $this->setDireccion ($row['direccion']);
             $this->setLogo_informes ($row['logo_informes']);
             $this->setLogo_login ($row['logo_login']);
+            $this->setUrl_qr($row['url_qr']);
         }
         
     } 
@@ -122,6 +124,15 @@ include_once '../model/Connections.php';
     function setLogo_login($logo_login): void {
         $this->logo_login = $logo_login;
     }
+
+    function getUrl_qr() {
+        return $this->url_qr;
+    }
+
+    function setUrl_qr($url_qr): void {
+        $this->url_qr = $url_qr;
+    }
+
 
 
 

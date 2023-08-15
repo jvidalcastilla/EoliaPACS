@@ -21,12 +21,9 @@ function getFirmante(){
      return firmante;
 }
 
-function grabarInforme(){
-    
-    
+function grabarInforme(estado){
     
     let informe= CKEDITOR.instances["editor1"].getData();
-   // let separador="</p>\n"
     informe=encodeURIComponent(informe);
     
     let solicitante=document.getElementById("solicitante").value;
@@ -39,20 +36,45 @@ function grabarInforme(){
     let firmante=getFirmante();
     let studyInstance=encodeURI(document.getElementById("studyInstance").innerHTML.trim());
     
-//    alert (dniPaciente);
-    $link="./wsSaveInforme.php?informe="+informe+"&dni="+dniPaciente+"&solicitante="+solicitante+"&paciente="+nom_paciente+"&afiliado="+afiliado+"&obraSocial="+obraSocial+"&usuario="+usuario+"&fecha="+fecha+"&firmante="+firmante+"&studyInstance="+studyInstance;
-    getRequest($link, informeGrabado, informeError);
     
+    
+    let btnImprimir=document.getElementById("btnImprimirInforme");
+    let btnGrabar=document.getElementById("btnGrabarInforme");
+    btnImprimir.disabled=true;
+    btnImprimir.innerHTML='<i class="fa fa-spinner fa-spin"></i>';
+    btnGrabar.disabled=true;
+    btnGrabar.hidden=true;
+    
+   let v=document.getElementById('editor1');
+   v.readOnly=true; 
+   
+   $link="./wsSaveInforme.php?informe="+informe+"&dni="+dniPaciente+"&solicitante="+solicitante
+                +"&paciente="+nom_paciente+"&afiliado="+afiliado+"&obraSocial="+obraSocial+"&usuario="+usuario
+                +"&fecha="+fecha+"&firmante="+firmante+"&studyInstance="+studyInstance+"&estado="+estado;
+   getRequest($link, informeGrabado, informeError);
+    
+   
 }
 
 function informeGrabado(response){
-    alert(response);
+    //alert(response);
+    let btnImprimir=document.getElementById("btnImprimirInforme");
+    btnImprimir.innerHTML='Informe grabado <i class="fa fa-check" aria-hidden="true"></i>';
 }
 
 function informeError(response){
     alert(response);
+    console.log(response);
 }
 
+
+function agregarPlantilla(){
+        let idSelectPlantilla=document.getElementById("idSelectPlantilla").value;
+      if (idSelectPlantilla>0){
+          getAutoTexto(idSelectPlantilla);
+      }
+        
+}
 
 function buscar_pac(event) {
     if (event.keyCode == 13 || event.which == 13) {
@@ -67,13 +89,23 @@ function getAutoTexto(codigo, cursorPosition) {
     //    alert(codigo);
     var usuario = getUsuario();
     getRequest(
-            'getAutoTexto.php?codigo=' + codigo + "&user=" + usuario + "&position=" + cursorPosition, // URL for the PHP file
+            'wsGetAutoTexto.php?id=' +codigo, // URL for the PHP file
             insertaAutotexto, // handle successful request
             errorAutotexto    // handle error
             );
     return false;
 }
 
+function insertaAutotexto(s){        
+        texto=decodeURI(s);    
+        CKEDITOR.instances['editor1'].insertHtml(decodeURIComponent(texto));
+}
+
+
+
+function errorAutotexto(e){
+    alert(e);
+}
 
 
 

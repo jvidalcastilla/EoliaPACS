@@ -23,6 +23,7 @@ include_once '../model/TextFunctions.php';
 //include_once '../IntegracionVisualMedica/getUrlPatientPortal.php';
 include_once '../model/PACSHelper.php';
 include_once '../model/CInforme.php';
+include_once '../menuPrincipal.php';
 
 $usuario = "";
 $nom_paciente = urldecode($params->name);
@@ -86,6 +87,7 @@ if (isset($_POST['editor1'])) {
     $informe=$unInforme->getInforme();
     $afiliado=$unInforme->getPac_afiliado();
     $pacObraSocial=$unInforme->getPac_os();
+    $estado = $unInforme->getEstado();
     if ($unInforme->getPac_nombre()!=""){
         $nom_paciente=$unInforme->getPac_nombre();
     }
@@ -129,73 +131,20 @@ if (isset($_POST['accessionNumber'])) {
      
     </head>
     <body>
-
-
-    
-<nav class="navbar navbar-expand-sm sticky-top">
-        <img class="navbar-brand" src="../img/logo_web.png" height="35" alt="EoliaPACS">
-            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="white" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-  <path fill-rule="evenodd" d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
-  <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z"/>
-</svg>  
-            
-            <a class="navbar-brand" href="#">&nbsp;Emisi&oacute;n de informes</a>
-            <div class="nav-item justify-content-sm-end">
-        <div class="flex-sm-fill text-md-right nav-link">
-        <span class="badge badge-secondary" id="cod_usuario" name="cod_usuario">
-        <?php 
-        if (session_status() !== PHP_SESSION_ACTIVE) {session_start();}
-        echo $_SESSION['user_id'];?>
-      </span>
-      
-            
-            
-            
-    </div>
-</nav>
-
-        <!--- Encabezado de impresion ---->
-
-        <div id="header_m"   style="visibility: hidden; display: none" >
-
-            <div class="row">
-                <div class="col-1">
-                    <img class="mr-3" src="logo.png" alt="LogoMedisur.png" width="150" height="165">
-                </div>
-                <div class="col-7">
-                    </BR>
-                    <titulo> MEDISUR S.A.<BR></titulo>
-                    <margen>Maipu 555 - Rio Gallegos<BR></margen>
-                    <margen>Tel: (2966) 42-3000<BR></margen>
-                    <margen>E-Mail: rx@medisur-rgl.com.ar<BR></margen>
-                    <titulo-xs>Turnos por WhatsApp:2966-693267 - Lun-Vie 8 a 15hs.</titulo-xs>
-
-                </div>
-                <div class="col  align-right"> 
-                </div>
-            </div>            
-            <br>
-            <!----<center><h5>Servicio de Diagn&oacutestico por im&aacute;genes</H5></center> ---->
-            <div class="card ml-2 mr-5">
-                <div class="card-text padtit">Paciente: <B><tipo_pac> <?php echo $nom_paciente . '  ' . $dniPaciente; ?></tipo_pac></B></div>
-                <div class="card-text padtit">Afiliado / Obra social:<B>  &nbsp;<?php echo $nro_afiliado . " " . $obrasocial; ?></B>  </div>
-                <div class="card-text padtit" id="lblProfesional"></div>
-                <div class="card-text padtit" id="lblFecha"></div>
-            </div>
-            </br>            
-            <div id="print_helper">
-           
-            </div>
-
-
+        <div class="container-fluid">
+                <?php echo obtenerMenu();  ?>
         </div>
+    
 
-
-
-        <!--- FIN Encabezado de impresion ---->
-
-
+        <div class="row pb-2">
+            <div class="col text-center">
+                <span class="h4 text-white">&nbsp;Emisi&oacute;n de informes</span>
+            </div>
+        </div>    
+            
+            
+          
+        
         <!----- Buscador --->
         <div class="modal fade" id="buscadorPacModal" tabindex="-1" role="dialog" aria-labelledby="buscadorPacModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -249,28 +198,25 @@ if (isset($_POST['accessionNumber'])) {
                             <input type="number" class="form-control form-control-sm" required value ="<?php echo $dniPaciente ?>" id="dniPaciente" name="dniPaciente"  placeholder="Historia Clinica">
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-sm btn-primary" name="btnDni" id="ingresoDniPac" type="post"> <i class="fa fa-refresh"></i>&nbsp;Buscar</button>
+                            <!--<button class="btn btn-sm btn-primary" name="btnDni" id="ingresoDniPac" type="post"> <i class="fa fa-refresh"></i>&nbsp;Buscar</button>-->
 
                         </div>
                         <div  class="col-2">
                             <!--<button type="button"  id="btn_porApellido" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#buscadorPacModal"><i class="fa fa-search"></i>Por Apellido</button>-->
                         </div>
-                        <div class="col-3">
-                            <!--<button class="btn btn-sm btn-primary" accesskey="g" name="grabarInforme" id="grabar" data-toggle="tooltip" data-placement="top" title="ALT+G Grabar"> <i class="fa fa-save"></i>&nbsp;Grabar Informe</button>-->    
-                            <button type="button" class="btn btn-sm btn-primary" accesskey="i"  id="btn_imprimir" onclick="imprimir()"> <li class="fa fa-print"></li>&nbsp;Imprimir</button>
-                        </div>           
+                        
                     </div> 
 
                     <div class="row  d-print-none">
                         <div class="col-sm-2 pl-2 ml-0">
                             <label for="nomPaciente" class="col-sm-10">Paciente:</label>
                         </div>
-                         <div class="col-sm-3">
+                         <div class="col-sm-4">
 <!--                            <?php //echo $nom_paciente; ?> -->
                             <input type="text"  class ="form-control form-control-sm" placeholder="Paciente" name="nom_paciente" id="nom_paciente" value="<?php echo $nom_paciente ?>" required>                           
                         </div>     
                         
-                        <div class="col-auto form-inline pl-2 ml-0">
+                        <div class="col-6 form-inline pl-2 ml-0">
                             <label for="osAfil" class="">OS/Afil:</label>
                             <input type="text"  class ="form-control form-control-sm col-3" placeholder="ObraSocial" name="obraSocial" id="obraSocial" value="<?php echo $pacObraSocial ?>">                           
                             <input type="text"  class ="form-control form-control-sm" placeholder="Afiliado" name="afiliado" id="afiliado" value="<?php echo $afiliado ?>">                           
@@ -286,12 +232,9 @@ if (isset($_POST['accessionNumber'])) {
                         <div class="col-sm-4">
                             <input type="text" class ="form-control form-control-sm" placeholder="solicitante" name="solicitante" id="solicitante" value="<?php echo $solicitante ?>" required>
                         </div>      
-                        <div class="col-sm-2 pl-2 ml-0">
-                            <label for="fecha_estudio" class="col-sm-10">Fecha:</label>
-                        </div>
-                        
-                        <div class="col-sm-2 p-0 m-0">
-                            <input type="date" class ="form-control form-control-sm" name="fecha_estudio" value="<?php echo $fecha_estudio; ?>" id="fecha_estudio">
+                        <div class="col-6 form-inline pl-2 ml-0">
+                            <label for="fecha_estudio" class="">Fecha:</label>
+                            <input type="date" class ="form-control form-control-sm ml-2" name="fecha_estudio" value="<?php echo $fecha_estudio; ?>" id="fecha_estudio">
                         </div>      
                     </div> 
 
@@ -303,9 +246,7 @@ if (isset($_POST['accessionNumber'])) {
                         
                         <div class="col-sm-2">
                             <select class ="form-control form-control-sm" id="firmante" name="firmante">
-                                <option value="1">Sebastian</option>
-                                <option value="2">Leopoldo</option>
-                                <option value="2">Carolina</option>
+                                <option value="1">Dr. Martin Anglesio</option>
                             </select>    
                         
                         </div>
@@ -318,7 +259,29 @@ if (isset($_POST['accessionNumber'])) {
                     </div>
             </div>
 
-
+            <div class="container-fluid pt-4 p-0 m-0">
+                <div class="btn-group">
+                <label for ="cboPlantilla" class="text-white pl">Plantilla</label>
+                <select class="form-control form-control-sm ml-2" id="idSelectPlantilla">
+                    <?php
+                        $autoTexto = new HISAutotexto();
+                        $rs = $autoTexto->getAll();
+                        while ($aRow = pg_fetch_assoc($rs)) {
+                            $id = $aRow['id'];
+                            $texto = $aRow['texto'];
+                            $codigo = $aRow['codigo'];
+                            echo "<option value='".$id."'>";
+                            echo $codigo ;
+                            echo "</option>";
+                            
+                        }
+                        ?>
+                    
+                    
+                </select>
+                <button class="btn btn-sm btn-secondary" onclick="agregarPlantilla();" type="button" id="addPlantilla"><i class="fa fa-plus"></i></button>
+            </div>
+            </div>
 
 
 
@@ -329,7 +292,7 @@ if (isset($_POST['accessionNumber'])) {
                 
              
                 
-                <textarea  cols="100" id="editor1" name="editor1" rows="20" data-sample-short></textarea>
+                <textarea   cols="100" id="editor1" name="editor1" rows="20" data-sample-short></textarea>
                 
             </div>
 
@@ -370,11 +333,20 @@ if (isset($_POST['accessionNumber'])) {
              </div>
                 
         </div>
-<div class="container">
+<div class="container text-center">
     
-    <button type="button" class="btn btn-success" onclick="grabarInforme();"><i class="fa fa-floppy-o"  aria-hidden="true"></i> Grabar </button>
+    <button type="button" 
+             <?php 
+        if ($estado=='FIN'){
+            echo " disabled ";
+        }
+    ?>
+            class="btn btn-success" id="btnGrabarInforme" onclick="grabarInforme('P');"><i class="fa fa-floppy-o"  aria-hidden="true"></i> Grabar </button>
     
-    <button type="button" class="btn btn-success" onclick="grabarInforme();window.open('./ImprimirInforme.php?studyinstance=<?php echo $studyInstance;?>&dniPaciente=<?php echo $dniPaciente;?>')"><i class="fa fa-print"  aria-hidden="true"></i> Imprimir </button>
+    <button type="button" class="btn btn-success"  id="btnImprimirInforme"
+            onclick="grabarInforme('F');window.open('./ImprimirInforme.php?studyinstance=<?php echo $studyInstance;?>&dniPaciente=<?php echo $dniPaciente;?>')">
+            <i class="fa fa-print"  aria-hidden="true"></i> Imprimir 
+    </button>
     
 </div>
         
@@ -391,6 +363,13 @@ if (isset($_POST['accessionNumber'])) {
     let vinforme=document.getElementById('informe_html');
     v.value=vinforme.innerHTML;
     
+    <?php 
+        if ($estado=='FIN'){
+            echo "v.readOnly=true;";
+        }
+    ?>
+    
+ 
   </script>
         
     </body>
