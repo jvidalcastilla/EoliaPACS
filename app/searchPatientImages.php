@@ -301,6 +301,18 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
             . '<i class="fa fa-pencil-square-o"></i>'
             . '</button>'
             . '</form>';
+
+    $editBtn='<div class="dropdown p-0 m-0"> '
+            . '<button class="btn btn-outline-secondary btn-sm boton_grilla dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="param" id="study_'.$aStudy.'"">'
+            . '<i class="fa fa-cog p-0 m-0"></i>'
+            . '</button>'
+            . ' <div class="dropdown-menu" aria-labelledby="study_'.$aStudy.'">
+                <a class="dropdown-item" href="../informes/edit.php?action=ED&param='.$unParametro.'">Editar informe</a>    
+                <a class="dropdown-item" href="../informes/edit.php?action=EE&param='.$unParametro.'">Eliminar estudio</a>
+                <a class="dropdown-item" href="../informes/edit.php?action=EI&&param='.$unParametro.'">Eliminar informe</a>
+              </div>'          
+            . '</div>'         ;
+    
     
     $detalleAnt="";
     $tipoModality="";
@@ -359,7 +371,7 @@ function getStudyDetails($aStudy,$modalities, $unInforme){
     echo $qrLink;     
     echo $emailLink;     
     echo $downloadLink;    
- 
+    echo $editBtn;
     echo '</td>';     
         
     echo '</tr>';
