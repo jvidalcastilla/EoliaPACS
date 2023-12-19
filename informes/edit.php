@@ -9,8 +9,10 @@ $p = $_GET['param'];
 //urlencode(json_encode($data));
 $p1 = urldecode($p);
 $parametros = json_decode($p1);
-//echo var_dump($parametros);
+echo var_dump($parametros);
 
+echo var_dump($_POST);
+echo var_dump($_GET);
 
 $action = $_GET['action'];
 
@@ -23,6 +25,14 @@ if ($action == "EE") {
 }
 if ($action == "EI") {
     $operacion = "Eliminar el informe";
+}
+
+if (isset($_POST["btnConfirma"])){
+    if ($_POST["btnConfirma"]=="EI"){
+        // eliminar el informe
+        echo "Eliminar!!";
+    }
+    
 }
 
 
@@ -104,7 +114,7 @@ include_once '../menuPrincipal.php';
         </style>
     </head>
     <body>
-
+        <form method="post">
         <div class='row pt-4'>
             <div class='col text-center'>
 
@@ -122,9 +132,9 @@ include_once '../menuPrincipal.php';
                 
             </div>
             <div class='col text-left'>
-                <button class='btn btn-sm btn-primary'><i class='fa fa-check'></i>&nbsp;Aceptar</button>
+                    <button type="submit" name="btnConfirma" value="<?php echo $action?>" class='btn btn-sm btn-primary'><i class='fa fa-check'></i>&nbsp;Aceptar</button>
             </div>
         </div>
 
-
+    </form>
     </body>

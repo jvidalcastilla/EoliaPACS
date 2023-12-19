@@ -343,9 +343,16 @@ if (isset($_POST['accessionNumber'])) {
     ?>
             class="btn btn-success" id="btnGrabarInforme" onclick="grabarInforme('P');"><i class="fa fa-floppy-o"  aria-hidden="true"></i> Grabar </button>
     
+            <input type="checkbox" id="adjuntarImagenes" value="Y">Adjuntar Im&aacute;genes       
+    
+            
     <button type="button" class="btn btn-success"  id="btnImprimirInforme"
             onclick="grabarInforme('F');window.open('./ImprimirInforme.php?studyinstance=<?php echo $studyInstance;?>&dniPaciente=<?php echo $dniPaciente;?>')">
             <i class="fa fa-print"  aria-hidden="true"></i> Imprimir 
+    </button>
+    <button type="button" class="btn btn-success"  id="btnSoloImprimirInforme"
+            onclick="window.open('./ImprimirInforme.php?studyinstance=<?php echo $studyInstance;?>&dniPaciente=<?php echo $dniPaciente;?>&addImages=')">
+            <i class="fa fa-print"  aria-hidden="true"></i> Imprimir sin grabar
     </button>
     
 </div>
